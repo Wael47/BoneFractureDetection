@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title> Bone Fracture Detection </title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+
+        <script>
+            function displayImage(event) {
+                console.log("test 123")
+                const selectedFile = event.target.files[0];
+                const reader = new FileReader();
+                const imgTag = document.getElementById("selected-image");
+
+                reader.onload = function (event) {
+                    imgTag.src = event.target.result;
+                };
+
+                reader.readAsDataURL(selectedFile);
+            }
+        </script>
+    </head>
+    <body>
+        <h1 class="container">Bone Fracture Detection</h1>
+        <br/>
+        <div class="container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% comment %}
+                <input type="file" accept="image/*" name="image" onchange="displayImage(event)"/>
+            {% endcomment %}
+                {{ form }}
+                <div class="container">
+                    <img id="selected-image" alt="" src="{{ imageURL }}"/>
+                    {% if predictions != None  %}
+                        <h2>{{ predictions }}</h2>
+                    {% endif %}
+                </div>
+                <input type="submit" value="Submit" name="submit" class="btn btn-primary">
+            </form>
+        </div>
+
+
+    </body>
+</html>
+
